@@ -65,24 +65,34 @@ void execute()
   }
 
   if (pid==0) {
-    /* fils */
-    execlp(ligne, /* programme à exécuter */
-	   ligne, /* argv[0], par convention le nom de programme exécuté */
-	   NULL   /* pas d'autre argument */
-	   );
+    //fils
+    char *a = strtok (ligne," ");
+    char *b = strtok (NULL," ");
 
-    /* on n'arrive ici que si le exec a échoué */
+    char path[50];
+    char file[50];
+
+    sprintf(path, "./%s.out", a);
+    sprintf(file, "%s.out", a);
+
+    execlp(path, file, b, NULL);
+    //execlp("/Users/Antoinevdm/Desktop/LaboOS/Shell/ls.out", "ls.out", NULL);
+    //on n'arrive ici que si le exec a échoué
     printf("impossible d'éxecuter \"%s\" (%s)\n",ligne,strerror(errno));
     exit(1);
   }
   else {
-    /* père */
+
     attent(pid);
   }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+  if(argc != 1){
+    //batch mode
+    return 0;
+  }
   /* boucle d'interaction */
   while (1) {
     affiche_invite();
