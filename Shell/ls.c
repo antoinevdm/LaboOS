@@ -11,11 +11,9 @@
 #include <time.h>
 #include <getopt.h>
 #define BUF_SIZE 1024
-#define ANSI_COLOR_RED     "\x1b[31m"
 
 #define handle_error(msg) \
         do { perror(msg); exit(EXIT_FAILURE); } while (0)
-
 
 int c = -1;
 int fd,fc,nread;
@@ -47,17 +45,19 @@ struct linux_dirent {
     */
 };
 
-struct option longopts[] = {                //not used but i'm just lazy..
+struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {"all", no_argument, NULL, 'a'},
-    {"name", required_argument, NULL, 'n'},
-    {"WOF", no_argument, NULL, 'W'},
+    {"recursive", no_argument, NULL, 'r'},
+    {"withoutfolder", no_argument, NULL, 'W'},
+    {"long", no_argument, NULL, 'l'},
     {0,0,0,0}
 };
 
 
 int main(int argc, char *argv[]){
 
+  int h = 0;
   int a = 0;
   int r = 0;
   int l = 0;
@@ -66,6 +66,10 @@ int main(int argc, char *argv[]){
 
   while ((c = getopt_long (argc, argv, "aRlW", longopts, NULL)) != -1) {
     switch(c){
+      case 'h':
+        h = 1;
+        break;
+
       case 'a':
         a = 1;
         break;
@@ -100,10 +104,10 @@ int main(int argc, char *argv[]){
     }
   }
 
- fd = open(".", O_RDONLY | O_DIRECTORY);  //fd = "file descriptor"
+  fd = open(".", O_RDONLY | O_DIRECTORY);  //fd = "file descriptor"
 
- if (fd == -1)
-  handle_error("open");
+  if (fd == -1)
+    handle_error("open");
 
   while (1) {
     nread = syscall(SYS_getdents, fd, buf, BUF_SIZE);
@@ -114,6 +118,15 @@ int main(int argc, char *argv[]){
     if (nread == 0)
         break;
 
+    if (h == 1) {
+      printf("\nUse this function to list your files\n \n");
+      printf("-h or --help for help, but you're already doing it\n");
+      printf("-a or --all to list even the hided files\n");
+      printf("-R or --recursive to list files and files inside a directory\n");
+      printf("-l or --long if you want informations about the files you're listing\n");
+      printf("-W or --withoutfolder if you don't want to list the folders inside your repository\n");
+    }
+    else {
       for (bpos = 0; bpos < nread;) {
         d = (struct linux_dirent *)(buf + bpos);
         d_type = *(buf + bpos + d->d_reclen - 1);
@@ -160,7 +173,9 @@ int main(int argc, char *argv[]){
 
         bpos += d->d_reclen;
       }
+    }
   }
+  close(fd);
   exit(EXIT_SUCCESS);
 }
 
