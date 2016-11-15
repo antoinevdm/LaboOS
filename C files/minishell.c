@@ -78,7 +78,7 @@ void execute()
     sprintf(file, "%s.out", a);
 
 
-    execlp(path, file, b, c,NULL);
+    execlp(path, file, b, c, NULL);
     //execlp("/Users/Antoinevdm/Desktop/LaboOS/Shell/ls.out", "ls.out", NULL);
     //on n'arrive ici que si le exec a échoué
     printf("impossible d'éxecuter \"%s\" (%s)\n",ligne,strerror(errno));

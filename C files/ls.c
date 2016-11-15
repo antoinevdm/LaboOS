@@ -64,7 +64,7 @@ int main(int argc, char *argv[]){
   int w = 0;
   int file;
 
-  while ((c = getopt_long (argc, argv, "aRlW", longopts, NULL)) != -1) {
+  while ((c = getopt_long (argc, argv, "aRhlW", longopts, NULL)) != -1) {
     switch(c){
       case 'h':
         h = 1;
