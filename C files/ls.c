@@ -55,8 +55,7 @@ struct option longopts[] = {
 };
 
 
-int main(int argc, char *argv[]){
-
+int main(int argc, char *argv[]) {
   int h = 0;
   int a = 0;
   int r = 0;
