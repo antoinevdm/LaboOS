@@ -73,8 +73,8 @@ int main(int argc, char **argv) {
     }
 
 
-    char *mode = argv[2];
-    char *buf = argv[3];
+    char *mode = argv[optind];
+    char *buf = argv[optind+1];
     int i;
     int one;
     one = (mode[1] - '0');
@@ -89,14 +89,13 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    if (argv[3] == NULL) {
+    if (buf == NULL) {
         printf("Missing pathname\n");
         printf("use -h or --help for help\n");
         exit(EXIT_FAILURE);
     }
 
     i = strtol(mode, 0, 8);
-    printf("%s\n", buf);
     if (chmod (buf,i) < 0) {
         fprintf(stderr, "%s: error in chmod(%s, %s) - %d (%s)\n",
                 argv[0], buf, mode, errno, strerror(errno));
