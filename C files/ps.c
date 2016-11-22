@@ -16,7 +16,7 @@
         do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 int c = -1;
-int fd,fc,nread;
+int sfd, ssfd, fd,fc,nread;
 char buf[BUF_SIZE];
 char sbuf[BUF_SIZE];
 struct linux_dirent *d;
@@ -25,6 +25,7 @@ int bpos;
 char d_type;
 char errno;
 int rval;
+int length;
 
 void checkFolderContent();
 void openfile();
@@ -95,10 +96,11 @@ int main(int argc, char *argv[]) {
 
     if (h == 1) {
       printf("\nUse this function to list your working process\n \n");
-      
+
     }
 
     else {
+      printf("PID\n");
       for (bpos = 0; bpos < nread;) {
         d = (struct linux_dirent *)(buf + bpos);
         d_type = *(buf + bpos + d->d_reclen - 1);
@@ -108,7 +110,24 @@ int main(int argc, char *argv[]) {
 
         if (a == '1' | a == '2' | a == '3' | a == '4' | a == '5' |  \
             a == '6' | a == '7' | a == '8' | a == '9' ) {
-            printf("%s\n",d->d_name);
+            char info [] = {'-','-','-','-','\0'};
+
+            char *bn;
+            bn = "s";//ajouter la valur de /proc/NOM DU PROCESSE/ STAUTS ou CMDLINE par exemple
+
+            sfd = openat(fd, d->d_name, O_RDONLY | O_DIRECTORY);
+            ssfd = openat(sfd, "cmdline" , O_RDONLY);
+
+            if (sfd == -1)
+                handle_error("open");
+
+            if (ssfd == -1)
+                handle_error("open");
+
+            while((length = read(ssfd, buf, BUF_SIZE)) > 0) {
+                printf("%s\n", buf);
+            }
+            printf("%s\n", d->d_name);
         }
 
         bpos += d->d_reclen;
