@@ -26,9 +26,7 @@ char d_type;
 char errno;
 int rval;
 int length;
-
-void checkFolderContent();
-void openfile();
+int isEnd;
 
 struct stat sb;
 
@@ -48,18 +46,25 @@ struct linux_dirent {
 
 struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
+    {"pid", required_argument, NULL, 'p'},
     {0,0,0,0}
 };
 
 
 int main(int argc, char *argv[]) {
   int h = 0;
+  int p = 0;
   int file;
 
-  while ((c = getopt_long (argc, argv, "h", longopts, NULL)) != -1) {
+  while ((c = getopt_long (argc, argv, "ph", longopts, NULL)) != -1) {
     switch(c){
+
       case 'h':
         h = 1;
+        break;
+
+      case 'p':
+        p = 1;
         break;
 
       case '?':
@@ -80,6 +85,15 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  if ( h == 1) {
+        printf("\nUse thhis fonction to list all of your current process\n");
+        printf("-h or --help to show this help page\n");
+        printf("-p or --pid to search a specific process by his PID\n");
+        printf("        And don't forget to put the PID you want\n");
+        printf("- or -- \n");
+        exit(EXIT_SUCCESS);
+  }
+
   fd = open("/proc", O_RDONLY | O_DIRECTORY);  //fd = "file descriptor"
 
   if (fd == -1)
@@ -94,13 +108,8 @@ int main(int argc, char *argv[]) {
     if (nread == 0)
         break;
 
-    if (h == 1) {
-      printf("\nUse this function to list your working process\n \n");
-
-    }
-
     else {
-      printf("PID\n");
+      printf("PID     COMMAND\n");
       for (bpos = 0; bpos < nread;) {
         d = (struct linux_dirent *)(buf + bpos);
         d_type = *(buf + bpos + d->d_reclen - 1);
@@ -110,13 +119,9 @@ int main(int argc, char *argv[]) {
 
         if (a == '1' | a == '2' | a == '3' | a == '4' | a == '5' |  \
             a == '6' | a == '7' | a == '8' | a == '9' ) {
-            char info [] = {'-','-','-','-','\0'};
-
-            char *bn;
-            bn = "s";//ajouter la valur de /proc/NOM DU PROCESSE/ STAUTS ou CMDLINE par exemple
 
             sfd = openat(fd, d->d_name, O_RDONLY | O_DIRECTORY);
-            ssfd = openat(sfd, "cmdline" , O_RDONLY);
+            ssfd = openat(sfd, "comm", O_RDONLY);
 
             if (sfd == -1)
                 handle_error("open");
@@ -124,14 +129,28 @@ int main(int argc, char *argv[]) {
             if (ssfd == -1)
                 handle_error("open");
 
-            while((length = read(ssfd, buf, BUF_SIZE)) > 0) {
-                printf("%s\n", buf);
+            if (p == 1) {
+                if (strcmp(d->d_name, argv[2]) == 0) {
+                    isEnd = 1;
+                    while((length = read(ssfd, buf, BUF_SIZE)) > 0)
+                        printf("%3s%13s", d->d_name, buf);
+                }
             }
-            printf("%s\n", d->d_name);
+            else {
+                while((length = read(ssfd, buf, BUF_SIZE)) > 0) {
+                    printf("%3s%13s", d->d_name, buf);
+                }
+            }
         }
 
         bpos += d->d_reclen;
       }
+
+      if (isEnd != 1 && p == 1) {
+          printf("Le PID %s ne correspond pas à un process\n", argv[2]);
+          exit(EXIT_FAILURE);
+      }
+
     }
   }
   close(fd);
