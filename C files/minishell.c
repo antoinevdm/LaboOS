@@ -66,26 +66,25 @@ void execute()
 
   if (pid==0) {
     //fils
-    char *a = strtok (ligne," ");
-    char *b = strtok (NULL," ");
-    char *c = strtok (NULL," ");
+    char *a = strtok (ligne, " ");
+    char *b = strtok (NULL, " ");
+    char *c = strtok (NULL, " ");
+    char *d = strtok (NULL," ");
 
     char path[50];
     char file[50];
 
-
     sprintf(path, "./%s.out", a);
     sprintf(file, "%s.out", a);
 
-
-    execlp(path, file, b, c, NULL);
+    execlp(path, file, b, c, d, NULL);
     //execlp("/Users/Antoinevdm/Desktop/LaboOS/Shell/ls.out", "ls.out", NULL);
     //on n'arrive ici que si le exec a échoué
     printf("impossible d'éxecuter \"%s\" (%s)\n",ligne,strerror(errno));
     exit(1);
   }
-  else {
 
+  else {
     attent(pid);
   }
 }
