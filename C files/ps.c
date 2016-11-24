@@ -16,7 +16,7 @@
         do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 int c = -1;
-int sfd, ssfd, fd,fc,nread;
+int sfd, ssfd, sssfd, fd, fc, nread;
 char buf[BUF_SIZE];
 char sbuf[BUF_SIZE];
 struct linux_dirent *d;
@@ -47,16 +47,20 @@ struct linux_dirent {
 struct option longopts[] = {
     {"help", no_argument, NULL, 'h'},
     {"pid", required_argument, NULL, 'p'},
+    {"comm", no_argument, NULL, 'c'},
+    {"info", required_argument, NULL, 'i'},
     {0,0,0,0}
 };
-
 
 int main(int argc, char *argv[]) {
   int h = 0;
   int p = 0;
+  int co = 0;
+  int i = 0;
   int file;
+  char *buff = argv[optind+1];
 
-  while ((c = getopt_long (argc, argv, "ph", longopts, NULL)) != -1) {
+  while ((c = getopt_long (argc, argv, "icph", longopts, NULL)) != -1) {
     switch(c){
 
       case 'h':
@@ -65,6 +69,14 @@ int main(int argc, char *argv[]) {
 
       case 'p':
         p = 1;
+        break;
+
+      case 'c':
+        co = 1;
+        break;
+
+      case 'i':
+        i = 1;
         break;
 
       case '?':
@@ -85,12 +97,20 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  if ((p == 1 | i == 1) && buff == NULL) {
+      printf("Missing pathname\n");
+      printf("use -h or --help for help\n");
+      exit(EXIT_FAILURE);
+  }
+
   if ( h == 1) {
         printf("\nUse thhis fonction to list all of your current process\n");
         printf("-h or --help to show this help page\n");
         printf("-p or --pid to search a specific process by his PID\n");
         printf("        And don't forget to put the PID you want\n");
-        printf("- or -- \n");
+        printf("-c or --comm for change the put the path in command name\n");
+        printf("-i or --info to display all informations about a specific process\n");
+        printf("        And don't forget to put de the PID you want\n");
         exit(EXIT_SUCCESS);
   }
 
@@ -121,9 +141,19 @@ int main(int argc, char *argv[]) {
             a == '6' | a == '7' | a == '8' | a == '9' ) {
 
             sfd = openat(fd, d->d_name, O_RDONLY | O_DIRECTORY);
-            ssfd = openat(sfd, "comm", O_RDONLY);
+
+            if (co == 1)
+                ssfd = openat(sfd, "cmdline", O_RDONLY);
+            else
+                ssfd = openat(sfd, "comm", O_RDONLY);
+
+            if (i == 1)
+                sssfd = openat(sfd, "status", O_RDONLY);
 
             if (sfd == -1)
+                handle_error("open");
+
+            if (ssfd == -1)
                 handle_error("open");
 
             if (ssfd == -1)
@@ -132,13 +162,30 @@ int main(int argc, char *argv[]) {
             if (p == 1) {
                 if (strcmp(d->d_name, argv[2]) == 0) {
                     isEnd = 1;
-                    while((length = read(ssfd, buf, BUF_SIZE)) > 0)
+                    while((read(ssfd, buf, BUF_SIZE)) > 0)
                         printf("%3s%13s", d->d_name, buf);
                 }
             }
+
+            else if (i == 1) {
+                if (strcmp(d->d_name, argv[2]) == 0) {
+                    isEnd = 1;
+                    while((read(ssfd, buf, BUF_SIZE)) > 0)
+                        printf("%3s%13s\n", d->d_name, buf);
+
+                    printf("Informations :\n\n");
+                    
+                    while((read(sssfd, buf, BUF_SIZE)) > 0)
+                        printf("%s\n", buf);
+                }
+            }
+
             else {
                 while((length = read(ssfd, buf, BUF_SIZE)) > 0) {
-                    printf("%3s%13s", d->d_name, buf);
+                    if (co == 1)
+                        printf("%3s%12s\n", d->d_name, buf);
+                    else
+                        printf("%3s%13s", d->d_name, buf);
                 }
             }
         }
@@ -146,7 +193,7 @@ int main(int argc, char *argv[]) {
         bpos += d->d_reclen;
       }
 
-      if (isEnd != 1 && p == 1) {
+      if (isEnd != 1 && (p == 1 | i == 1)) {
           printf("Le PID %s ne correspond pas à un process\n", argv[2]);
           exit(EXIT_FAILURE);
       }
