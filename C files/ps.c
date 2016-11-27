@@ -193,7 +193,7 @@ int main(int argc, char *argv[]) {
       }
 
       //if the for is ended, and nothing was printed,
-      //the pid you specyfy is simply not a process 
+      //the pid you specyfy is simply not a process
       if (isEnd != 1 && (p == 1 | i == 1)) {
           printf("Le PID %s ne correspond pas à un process\n", argv[2]);
           exit(EXIT_FAILURE);
