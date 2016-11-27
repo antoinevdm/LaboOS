@@ -97,7 +97,7 @@ void execute() {
 
 int main(int argc, char *argv[]) {
 
-  //batch mode
+  //batch mode, call the .sh file you specified 
   if (argc != 1) {
     char test[50];
     sprintf(test, "./%s", argv[1]);
