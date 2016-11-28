@@ -89,8 +89,17 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  //Get the file descriptor of the current directory
-  fd = open(".", O_RDONLY | O_DIRECTORY);
+  char *mode = argv[optind];
+  //Get the file descriptor of the directory you want ..
+  if ( mode != NULL) {
+    char path[50];
+    sprintf(path, "%s", argv[1]);
+    fd = open(path , O_RDONLY | O_DIRECTORY);
+  }
+
+  //.. or the current directory
+  else
+    fd = open(".", O_RDONLY | O_DIRECTORY);
 
   if (fd == -1)
     handle_error("open");
