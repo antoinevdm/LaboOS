@@ -1,0 +1,27 @@
+[
+  {
+    "directory": "/mnt/c/Users/Antoi/Desktop/LaboOS/build",
+    "command": "cc  '-Imyrm.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g' '-MMD' '-MQ' 'myrm.out@exe/src_rm.c.o' '-MF' 'myrm.out@exe/src_rm.c.o.d' -o 'myrm.out@exe/src_rm.c.o' -c ../src/rm.c",
+    "file": "../src/rm.c"
+  },
+  {
+    "directory": "/mnt/c/Users/Antoi/Desktop/LaboOS/build",
+    "command": "cc  '-Imyls.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g' '-MMD' '-MQ' 'myls.out@exe/src_ls.c.o' '-MF' 'myls.out@exe/src_ls.c.o.d' -o 'myls.out@exe/src_ls.c.o' -c ../src/ls.c",
+    "file": "../src/ls.c"
+  },
+  {
+    "directory": "/mnt/c/Users/Antoi/Desktop/LaboOS/build",
+    "command": "cc  '-Ish12.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g' '-MMD' '-MQ' 'sh12.out@exe/src_minishell.c.o' '-MF' 'sh12.out@exe/src_minishell.c.o.d' -o 'sh12.out@exe/src_minishell.c.o' -c ../src/minishell.c",
+    "file": "../src/minishell.c"
+  },
+  {
+    "directory": "/mnt/c/Users/Antoi/Desktop/LaboOS/build",
+    "command": "cc  '-Imychmod.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g' '-MMD' '-MQ' 'mychmod.out@exe/src_chmod.c.o' '-MF' 'mychmod.out@exe/src_chmod.c.o.d' -o 'mychmod.out@exe/src_chmod.c.o' -c ../src/chmod.c",
+    "file": "../src/chmod.c"
+  },
+  {
+    "directory": "/mnt/c/Users/Antoi/Desktop/LaboOS/build",
+    "command": "cc  '-Imyps.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g' '-MMD' '-MQ' 'myps.out@exe/src_ps.c.o' '-MF' 'myps.out@exe/src_ps.c.o.d' -o 'myps.out@exe/src_ps.c.o' -c ../src/ps.c",
+    "file": "../src/ps.c"
+  }
+]

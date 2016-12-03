@@ -1,0 +1,25 @@
+Build started at 2016-11-30T15:18:09.390319
+Python binary: /usr/bin/python3
+Python system: Linux
+The Meson build system
+Version: 0.36.0
+Source dir: /mnt/c/Users/Antoi/Desktop/LaboOS
+Build dir: /mnt/c/Users/Antoi/Desktop/LaboOS/C files
+Build type: native build
+Project name: laboOs
+Sanity testing c compiler: cc
+Is cross compiler: False.
+Sanity check compiler command line: cc /mnt/c/Users/Antoi/Desktop/LaboOS/C files/meson-private/sanitycheckc.c -o /mnt/c/Users/Antoi/Desktop/LaboOS/C files/meson-private/sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /mnt/c/Users/Antoi/Desktop/LaboOS/C files/meson-private/sanitycheckc.exe
+Native c compiler: cc (gcc 4.8.4)
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+
+Meson encountered an error in file meson.build, line 3, column 0:
+File C\ files/minishell.c does not exist.
