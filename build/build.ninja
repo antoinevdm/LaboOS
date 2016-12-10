@@ -66,20 +66,6 @@ build myrm.out@exe/src_rm.c.o: c_COMPILER ../src/rm.c
 build myrm.out: c_LINKER myrm.out@exe/src_rm.c.o
  LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
 
-build myls.out@exe/src_ls.c.o: c_COMPILER ../src/ls.c
- DEPFILE = myls.out@exe/src_ls.c.o.d
- ARGS = '-Imyls.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
-
-build myls.out: c_LINKER myls.out@exe/src_ls.c.o
- LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
-
-build sh12.out@exe/src_minishell.c.o: c_COMPILER ../src/minishell.c
- DEPFILE = sh12.out@exe/src_minishell.c.o.d
- ARGS = '-Ish12.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
-
-build sh12.out: c_LINKER sh12.out@exe/src_minishell.c.o
- LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
-
 build mychmod.out@exe/src_chmod.c.o: c_COMPILER ../src/chmod.c
  DEPFILE = mychmod.out@exe/src_chmod.c.o.d
  ARGS = '-Imychmod.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
@@ -87,11 +73,25 @@ build mychmod.out@exe/src_chmod.c.o: c_COMPILER ../src/chmod.c
 build mychmod.out: c_LINKER mychmod.out@exe/src_chmod.c.o
  LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
 
+build sh3.out@exe/src_minishell.c.o: c_COMPILER ../src/minishell.c
+ DEPFILE = sh3.out@exe/src_minishell.c.o.d
+ ARGS = '-Ish3.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
+
+build sh3.out: c_LINKER sh3.out@exe/src_minishell.c.o
+ LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
+
 build myps.out@exe/src_ps.c.o: c_COMPILER ../src/ps.c
  DEPFILE = myps.out@exe/src_ps.c.o.d
  ARGS = '-Imyps.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
 
 build myps.out: c_LINKER myps.out@exe/src_ps.c.o
+ LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
+
+build myls.out@exe/src_ls.c.o: c_COMPILER ../src/ls.c
+ DEPFILE = myls.out@exe/src_ls.c.o.d
+ ARGS = '-Imyls.out@exe' '-I.' '-I..' '-pipe' '-Wall' '-Winvalid-pch' '-O0' '-g'
+
+build myls.out: c_LINKER myls.out@exe/src_ls.c.o
  LINK_ARGS = '-Wl,--no-undefined' '-Wl,--as-needed'
 
 # Test rules
@@ -119,7 +119,7 @@ build scan-build: CUSTOM_COMMAND PHONY
  COMMAND = '/usr/bin/python3' '/usr/local/bin/meson' '--internal' 'scanbuild' '/mnt/c/Users/Antoi/Desktop/LaboOS' '/mnt/c/Users/Antoi/Desktop/LaboOS/build' '/usr/bin/python3' '/usr/local/bin/meson'
  pool = console
 
-build all: phony myrm.out myls.out sh12.out mychmod.out myps.out
+build all: phony myrm.out mychmod.out sh3.out myps.out myls.out
 
 default all
 

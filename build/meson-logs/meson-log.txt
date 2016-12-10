@@ -1,4 +1,4 @@
-Build started at 2016-12-01T08:35:48.407464
+Build started at 2016-12-10T10:17:01.168962
 Python binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -7,16 +7,6 @@ Source dir: /mnt/c/Users/Antoi/Desktop/LaboOS
 Build dir: /mnt/c/Users/Antoi/Desktop/LaboOS/build
 Build type: native build
 Project name: laboOs
-Sanity testing c compiler: cc
-Is cross compiler: False.
-Sanity check compiler command line: cc /mnt/c/Users/Antoi/Desktop/LaboOS/build/meson-private/sanitycheckc.c -o /mnt/c/Users/Antoi/Desktop/LaboOS/build/meson-private/sanitycheckc.exe
-Sanity check compile stdout:
-
------
-Sanity check compile stderr:
-
------
-Running test binary command: /mnt/c/Users/Antoi/Desktop/LaboOS/build/meson-private/sanitycheckc.exe
 Native c compiler: cc (gcc 4.8.4)
 Build machine cpu family: x86_64
 Build machine cpu: x86_64
