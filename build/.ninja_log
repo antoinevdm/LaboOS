@@ -72,3 +72,13 @@
 258	396	0	myps.out	f5b4099850a71c4
 281	406	0	myls.out	10b5812225723522
 301	425	0	sh3.out	738ac2f5f401954c
+16	428	0	myps.out@exe/src_ps.c.o	c4a7727ba2aa85fd
+0	447	0	myrm.out@exe/src_rm.c.o	bf5867cdbea142bc
+0	450	0	mychmod.out@exe/src_chmod.c.o	6fdf8455ac45f5ec
+0	450	0	sh3.out@exe/src_minishell.c.o	cf1b8cfc34605299
+16	450	0	myls.out@exe/src_ls.c.o	81e601d840010020
+428	589	0	myps.out	f5b4099850a71c4
+450	595	0	mychmod.out	9c52c0186c12a0f4
+448	597	0	myrm.out	495f9bd9b7aa8bea
+450	598	0	sh3.out	738ac2f5f401954c
+450	605	0	myls.out	10b5812225723522

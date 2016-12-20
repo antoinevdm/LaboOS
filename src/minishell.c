@@ -108,10 +108,13 @@ int main(int argc, char *argv[]) {
     //char **all_line[50];
     int i = 1;
 
+    //place each char on the buf variable
     while((read(fd, buf, BUF_SIZE)) > 0)
 
+    //cut the buf var each time we have \n
     token = strtok_r(buf, "\n", &saveptr);
 
+    //execute the cutted line, and recut the buf variable
     while (token != NULL) {
       printf("\n --> %i : %s\n", i,  token);
       strcpy(line, token);
